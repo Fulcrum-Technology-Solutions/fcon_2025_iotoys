@@ -1,268 +1,258 @@
 # Arduino IoT Workshop - Code Requirements Document
 
 ## Project Overview
-Multi-phase Arduino workshop building an Environmental Monitoring Station with Security Access. Each phase has standalone code that participants will download and upload to their Arduino Uno.
+3-phase Arduino workshop building an Interactive Gaming and Sensor System. Each phase has standalone code that participants will download and upload to their Arduino Uno.
+
+## File/Folder Hierarchy
+```
+fcon_2025_iotoys/
+├── README.md
+├── docs/
+│   ├── wiring-diagrams/
+│   │   ├── phase1-led-wiring.png
+│   │   ├── phase2-7segment-button-wiring.png
+│   │   └── phase3-proximity-alarm-wiring.png
+│   ├── troubleshooting.md
+│   └── component-guide.md
+├── phase1-led-blink/
+│   ├── phase1_led_blink.ino
+│   ├── README.md
+│   └── wiring-diagram.txt
+├── phase2-random-generator/
+│   ├── phase2_random_generator.ino
+│   ├── README.md
+│   └── wiring-diagram.txt
+├── phase3-proximity-alarm/
+│   ├── phase3_proximity_alarm.ino
+│   ├── README.md
+│   └── wiring-diagram.txt
+└── resources/
+    ├── component-datasheets/
+    │   ├── HC-SR04-datasheet.pdf
+    │   ├── 7segment-display-pinout.pdf
+    │   └── arduino-uno-pinout.pdf
+    └── workshop-presentation/
+        ├── workshop-slides.pdf
+        └── component-overview.pdf
+```
+
+### File Descriptions:
+- **Main README.md**: Workshop overview, prerequisites, and getting started guide
+- **Phase folders**: Each contains standalone Arduino code (.ino file) with phase-specific documentation
+- **docs/**: Comprehensive documentation including wiring diagrams and troubleshooting guides
+- **resources/**: Reference materials including component datasheets and presentation slides
+- **wiring-diagram.txt**: ASCII art wiring diagrams in each phase folder for offline reference
 
 ## Hardware Configuration
 - **Microcontroller**: Arduino Uno R3
-- **Shield**: Prototype expansion board with breadboard
-- **Power**: 9V battery via power supply module
-- **Display**: LCD1602 (16x2 character display with I2C backpack)
+- **Breadboard**: 0-60 columns, A-J rows with power rails
+- **Power Module**: 5V/3.3V dual output with jumpers (7V-10V input)
+- **Power Rails**: Top rail (5V), Bottom rail (ground)
+- **Display**: Serial Monitor (via USB connection)
 - **Input Devices**: 
-  - 8-pin 4x4 membrane keypad matrix
-  - Analog joystick module
+  - Push button (momentary switch)
 - **Sensors**:
   - HC-SR04 ultrasonic distance sensor
-  - DHT11 temperature and humidity sensor
-  - Water/moisture sensor (analog)
 - **Output Devices**:
-  - Green LED (success/positive feedback)
-  - Red LED (error/negative feedback)
-  - 4-digit 7-segment display with 74HC595 shift register
-  - 28BYJ-48 stepper motor with ULN2003 driver board
-- **Connectivity**: Standard jumper wires and breadboard connections
+  - Green LED (Phase 1 only) - 220Ω resistor
+  - 1-digit 7-segment display (common cathode)
+  - Active buzzer
+- **Connectivity**: Direct Arduino connections, breadboard for power distribution
 
 ## Pin Assignments
 ```
-// Digital Pins
-Pin 2:  Ultrasonic Trigger
-Pin 3:  Ultrasonic Echo  
-Pin 4:  DHT11 Data
-Pin 5:  Green LED
-Pin 6:  Red LED
-Pin 7:  Stepper Motor IN1
-Pin 8:  Stepper Motor IN2
-Pin 9:  Stepper Motor IN3
-Pin 10: Stepper Motor IN4
-Pin 11: 7-Segment Data (74HC595)
-Pin 12: 7-Segment Clock (74HC595)
-Pin 13: 7-Segment Latch (74HC595)
+// Power Connections
+Arduino 5V  ----->  Breadboard Top Rail (Positive/Red Side)
+Arduino GND ----->  Breadboard Bottom Rail (Negative/Blue Side)
 
-// Analog Pins
-A0: Water Sensor
-A1: Joystick X-axis
-A2: Joystick Y-axis
-A3: Joystick Button
+// Phase 1: LED Control
+Pin 9: Green LED (via 220Ω resistor to ground rail)
 
-// I2C (for LCD)
-A4: SDA
-A5: SCL
+// Phase 2-3: 7-Segment Display (Common Cathode)
+Pin 2: 7-Segment A (top)
+Pin 3: 7-Segment B (top right)
+Pin 4: 7-Segment C (bottom right)
+Pin 5: 7-Segment D (bottom)
+Pin 6: 7-Segment E (bottom left)
+Pin 7: 7-Segment F (top left)
+Pin 8: 7-Segment G (middle)
 
-// 8-Pin Keypad Matrix (4x4 membrane)
-Pin 14: Keypad Row 1
-Pin 15: Keypad Row 2
-Pin 16: Keypad Row 3
-Pin 17: Keypad Row 4
-Pin 18: Keypad Col 1
-Pin 19: Keypad Col 2
-Pin 20: Keypad Col 3
-Pin 21: Keypad Col 4
+// Phase 2-3: Input/Output
+Pin 10: Push Button (with internal pull-up resistor)
+
+// Phase 3: Ultrasonic Sensor and Buzzer
+Pin 11: Ultrasonic Trigger (HC-SR04)
+Pin 12: Ultrasonic Echo (HC-SR04)
+Pin 13: Active Buzzer
+
+// Available Pins
+A0-A5: Available for future expansion
 ```
 
-## Phase 1: Basic Setup and LED Control
-**File**: `phase1_basic_leds.ino`
+## Connection Strategy
+- **Direct Arduino**: All components connect directly to Arduino pins
+- **Breadboard**: Power distribution and ground connections only
+- **Serial Output**: All information display via USB Serial Monitor
+- **Power Distribution**: All components powered from breadboard power rails
+- **Ground**: All components grounded via breadboard ground rail
+
+## Phase 1: LED Blink System
+**File**: `phase1_led_blink.ino`
 
 ### Requirements:
-- Initialize green and red LEDs on specified pins
-- Create startup sequence: both LEDs blink 3 times simultaneously
-- Implement alternating blink pattern: green 500ms, red 500ms, repeat
-- Include clear serial output for debugging
-- Use non-blocking delay approach for future expansion
+- Initialize Arduino Uno R3 with Serial communication at 9600 baud
+- Initialize green LED on Pin 9
+- Connect LED via 220Ω resistor to breadboard ground rail
+- Create simple blink pattern: LED on for 500ms, off for 500ms, continuous
+- Include serial output describing LED state changes
+- Use non-blocking millis() timing
+- Display workshop header and system information in Serial Monitor
+
+### LED Pattern:
+- **Continuous**: LED blinks every 500ms (on/off cycle)
+- **Serial Output**: Display LED state changes with timestamps
 
 ### Functions Required:
 ```cpp
 void setup()
 void loop()
-void blinkStartup()
-void alternatingBlink()
+void blinkLED()
+void updateSerial()
 ```
 
-## Phase 2: LCD Display Integration
-**File**: `phase2_lcd_display.ino`
+## Phase 2: Random Number Generator
+**File**: `phase2_random_generator.ino`
 
 ### Requirements:
-- Include LCD I2C library support (LiquidCrystal_I2C)
-- Initialize 16x2 LCD on I2C address 0x27
-- Display workshop title "ENV MONITOR v1.0" on line 1
-- Display "Initializing..." on line 2 for 3 seconds
-- Clear screen and show "System Ready" with current timestamp
-- Maintain LED functionality from Phase 1
-- Handle LCD initialization errors gracefully
+- Remove all LED functionality from Phase 1
+- Connect 1-digit 7-segment display to pins 2-8 (segments A-G)
+- Connect push button to pin 10 (use internal pull-up resistor)
+- Power all components from breadboard rails (5V and ground)
+- Implement random number generator functionality:
+  - Boot sequence: Display 0→1→2→3→4→5→6→7→8→9 (500ms each)
+  - After boot sequence, show blank display
+  - Button press generates and displays random number (0-9)
+  - Number stays displayed until next button press
+- Enhanced serial output showing button presses and generated numbers
+
+### Boot Sequence:
+- **Startup**: Display digits 0-9 sequentially, 500ms each
+- **Ready State**: Blank display after boot sequence
+- **Button Press**: Immediately show new random number (0-9)
+- **Serial Output**: Display generated numbers and button press events
 
 ### Functions Required:
 ```cpp
 void setup()
 void loop()
-void initializeLCD()
-void displayStartupMessage()
-void displaySystemReady()
+void bootSequence()
+void readButton()
+void generateRandomNumber()
+void displayNumber(int number)
+void clearDisplay()
 ```
 
-## Phase 3: Multi-Sensor Data Collection
-**File**: `phase3_sensor_dashboard.ino`
+## Phase 3: Proximity Alarm System
+**File**: `phase3_proximity_alarm.ino`
 
 ### Requirements:
-- Integrate all sensors: ultrasonic, DHT11, water sensor
-- Display sensor readings on LCD in rotating fashion (3-second intervals)
-- Screen 1: "Temp: XX.X°C" / "Humidity: XX.X%"
-- Screen 2: "Distance: XXX cm" / "Status: CLEAR/DETECTED"
-- Screen 3: "Water Level: XXX" / "Status: DRY/WET"
-- LED indicators: Green when all sensors normal, Red when any alert condition
-- Serial output of all sensor values for debugging
-- Handle sensor read failures and display error messages
+- Build on Phase 2 foundation (7-segment display and button established)
+- Connect HC-SR04 ultrasonic sensor to pins 11 (trigger) and 12 (echo)
+- Connect active buzzer to pin 13
+- Power all components from breadboard rails (5V and ground)
+- Implement proximity alarm functionality:
+  - Continuously measure distance every 200ms
+  - Display distance 0-9cm on 7-segment display
+  - Show blank display if distance >9cm
+  - Buzzer alarm when distance ≤2cm with car-like beeping pattern
+  - Faster beeping as distance approaches 0cm
+  - Button toggles buzzer mute/unmute (distance still displays)
+- Enhanced serial output showing distance readings, alarm status, and mute state
 
-### Alert Conditions:
-- Distance < 20cm (proximity detection)
-- Water sensor > 500 (water detected)
-- Temperature > 30°C or < 10°C
-- Humidity > 80%
+### Proximity Alarm Features:
+- **Distance Range**: 0-9cm displayed on 7-segment, blank if >9cm
+- **Update Rate**: Distance measured every 200ms
+- **Alarm Threshold**: Buzzer activates when ≤2cm
+- **Beep Pattern**: Car reversing alarm style - faster beeping as distance decreases
+- **Beep Timing**: 
+  - 2cm: beep every 800ms
+  - 1cm: beep every 400ms  
+  - 0cm: beep every 200ms
+- **Mute Function**: Button toggles buzzer on/off, distance display unaffected
+- **Serial Output**: Distance readings, alarm status, mute state
 
 ### Functions Required:
 ```cpp
 void setup()
 void loop()
-void readAllSensors()
-void updateLCDDisplay()
-void checkAlertConditions()
-void updateStatusLEDs()
-```
-
-## Phase 4: Security Keypad Integration
-**File**: `phase4_security_system.ino`
-
-### Requirements:
-- Add 4x4 membrane keypad support
-- Default passcode: "1234*" (* confirms entry)
-- System starts in LOCKED mode - sensors hidden
-- LCD shows "ENTER PASSCODE:" and cursor
-- Display entered digits as asterisks for security
-- Correct passcode: Green LED, "ACCESS GRANTED", show sensor dashboard
-- Wrong passcode: Red LED blink 3 times, "ACCESS DENIED", clear input
-- Auto-clear partial entry after 10 seconds of inactivity
-- '#' key clears current entry
-- Return to locked mode after 60 seconds of inactivity
-
-### Security Features:
-- Maximum 3 failed attempts before 30-second lockout
-- During lockout: Red LED stays on, LCD shows "SYSTEM LOCKED"
-- Successful entry resets failed attempt counter
-
-### Functions Required:
-```cpp
-void setup()
-void loop()
-void handleKeypadInput()
-void checkPasscode()
-void grantAccess()
-void denyAccess()
-void lockoutSystem()
-void clearEntry()
-```
-
-## Phase 5: Stepper Motor Automation
-**File**: `phase5_complete_system.ino`
-
-### Requirements:
-- Include all previous functionality
-- Add stepper motor control (28BYJ-48 with ULN2003)
-- After successful passcode entry, stepper motor activates
-- Motor rotates 90 degrees clockwise every 2 seconds while in monitoring mode
-- Use smooth stepping motion (not jerky)
-- Add motor status to display rotation: "Motor: Active/Stopped"
-- Joystick can manually control motor when system unlocked:
-  - Left/Right: Manual rotation control
-  - Button press: Toggle auto/manual mode
-
-### Motor Control:
-- Smooth acceleration/deceleration
-- 4096 steps per full revolution (90° = 1024 steps)
-- Speed: ~500 steps per second for smooth operation
-- Auto mode: 2-second intervals between 90° rotations
-- Manual mode: Real-time joystick control
-
-### Functions Required:
-```cpp
-void setup()
-void loop()
-void controlStepperMotor()
-void autoMotorMovement()
-void manualMotorControl()
-void readJoystick()
-void stepMotor(int steps, int direction)
-```
-
-## Phase 6: Advanced Features (Bonus)
-**File**: `phase6_advanced_system.ino`
-
-### Requirements:
-- Add 4-digit 7-segment display showing system uptime
-- Implement data logging to EEPROM (last 10 sensor readings)
-- Add system configuration menu accessed via special code "9999*"
-- Configuration options:
-  - Change passcode
-  - Adjust sensor thresholds
-  - Set motor rotation interval
-  - Reset system to defaults
-- Enhanced joystick navigation in menus
-- Save/load settings from EEPROM
-
-### Functions Required:
-```cpp
-void setup()
-void loop()
-void updateSevenSegment()
-void configurationMenu()
-void saveSettings()
-void loadSettings()
-void resetToDefaults()
+void measureDistance()
+void updateDisplay()
+void handleBuzzerAlarm()
+void readButton()
+void toggleMute()
+void calculateBeepInterval(int distance)
 ```
 
 ## Code Structure Requirements
 
 ### All Phases Must Include:
 1. **Header comments** with phase description and pin assignments
-2. **Library includes** with version compatibility notes
-3. **Global variable definitions** with clear naming conventions
-4. **Setup function** with proper initialization order
-5. **Main loop** with non-blocking timing
-6. **Error handling** for sensor failures and hardware issues
-7. **Serial debugging** output for troubleshooting
-8. **Code comments** explaining each major section
+2. **Global variable definitions** with clear naming conventions
+3. **Setup function** with proper initialization order and serial output
+4. **Main loop** with non-blocking millis() timing
+5. **Error handling** for hardware failures and invalid readings
+6. **Serial debugging** output for troubleshooting and status updates
+7. **Code comments** explaining each major section and function
 
 ### Coding Standards:
 - Use consistent indentation (2 spaces)
 - Meaningful variable names (camelCase)
 - Function names that describe their purpose
-- Constants defined with #define or const
-- Avoid blocking delays in main loop
-- Include timeout handling for all sensor reads
-- Graceful degradation when hardware fails
+- Constants defined with #define for pin assignments and thresholds
+- Avoid blocking delays in main loop (use millis() timing)
+- Include timeout handling for sensor reads
+- Graceful degradation when hardware components fail
 
-### Libraries Required:
+### Built-in Libraries Only:
 ```cpp
-#include <LiquidCrystal_I2C.h>  // LCD display (latest compatible version)
-#include <DHT.h>                // Temperature/humidity sensor (latest compatible version)
-#include <Keypad.h>             // 8-pin 4x4 membrane keypad (latest compatible version)
-#include <Stepper.h>            // Stepper motor control (latest compatible version)
-#include <EEPROM.h>             // Data storage (Phase 6)
+// No external library includes required
+// All functionality implemented with standard Arduino functions
+// 7-segment display controlled with digitalWrite()
+// Timing controlled with millis()
+// Random number generation with random()
+// Button reading with digitalRead() and INPUT_PULLUP
+```
+
+### 7-Segment Display Number Patterns:
+```cpp
+// Define digit patterns for 7-segment display (segments A-G)
+// Common cathode configuration
+// Segment mapping: A=Pin2, B=Pin3, C=Pin4, D=Pin5, E=Pin6, F=Pin7, G=Pin8
+// Pattern arrays for digits 0-9
+// Clear display function for blank state
 ```
 
 ### Testing Requirements:
 Each phase must be independently testable and include:
-- Hardware connection verification
-- Sensor calibration routines
-- Component failure simulation
-- Reset/restart functionality
-- Clear error messages for common issues
+- Hardware connection verification via serial output
+- Component functionality testing on startup
+- Clear error messages for connection issues
+- Graceful handling of sensor read failures
+- Serial confirmation of all major operations
 
 ## Documentation Requirements:
 Each code file should include:
-- Header comments with phase description and pin assignments
-- Wiring diagram ASCII art in comments
-- Expected behavior description
-- Troubleshooting section
-- Known limitations
-- Upgrade path to next phase
-- Library includes with version compatibility notes
+- **Header block** with phase description, components used, and pin assignments
+- **ASCII wiring diagram** in comments showing connections
+- **Expected behavior** description for troubleshooting
+- **Serial output examples** showing normal operation
+- **Common issues** section with solutions
+- **Next phase preview** explaining what components will be added
 
-This requirements document provides complete specifications for generating all six phases of the Arduino workshop code, ensuring consistent functionality and educational progression.
+## Hardware Connection Notes:
+- **7-Segment Display**: Connect common cathode to ground, segments A-G to pins 2-8 via 220Ω resistors
+- **Push Button**: Connect between pin 10 and ground, use INPUT_PULLUP mode
+- **Ultrasonic Sensor**: VCC to 5V, GND to ground, Trig to pin 11, Echo to pin 12
+- **Active Buzzer**: Positive to pin 13, negative to ground
+- **LED (Phase 1 only)**: Connect via 220Ω resistor to ground, positive lead to pin 9
+- **Power Distribution**: Use breadboard power rails for clean power distribution (5V top rail, 3.3V bottom rail, both with GND)
