@@ -3,14 +3,14 @@
  * 
  * Components Used:
  * - Arduino Uno R3
- * - Green LED with 220Ω resistor
+ * - Green LED (direct connection)
  * - Active Buzzer
  * - Push Button
  * - Breadboard with power rails
  * - Breadboard power supply module
  * 
  * Pin Assignments:
- * - Pin 13: Green LED (via 220Ω resistor to ground)
+ * - Pin 13: Green LED (direct connection to ground rail)
  * - Pin 7: Active Buzzer (positive lead, negative to ground)
  * - Pin 8: Push Button (with internal pull-up resistor)
  * - Arduino 5V: Breadboard top rail (positive power)
@@ -20,7 +20,7 @@
  * Arduino 5V  ----->  Breadboard Top Rail (Red/Positive)
  * Arduino GND ----->  Breadboard Bottom Rail (Blue/Negative)
  * Pin 13      ----->  LED Positive Lead (longer leg)
- * LED Negative ----->  220Ω Resistor ----->  Breadboard Ground Rail
+ * LED Negative ----->  Breadboard Ground Rail (direct connection)
  * Pin 7       ----->  Buzzer Positive Lead
  * Buzzer Negative ----->  Breadboard Ground Rail
  * Pin 8       ----->  Push Button (other terminal to GND)
@@ -177,7 +177,7 @@ void displayWorkshopHeader() {
  * 2. LED not toggling:
  *    - Check pin 13 connection
  *    - Verify LED polarity (longer leg = positive)
- *    - Check 220Ω resistor connection
+ *    - Verify LED negative connected directly to ground rail
  *    - Ensure ground connection to breadboard rail
  * 
  * 3. Buzzer not working:

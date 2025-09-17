@@ -22,13 +22,13 @@
 - **Breadboard connections loose**: Ensure jumper wires fully inserted, check power rail continuity
 
 ### Phase 1 - LED Blink Issues
-- **LED not lighting**: Check pin 13 connection, verify 220Ω resistor, check LED polarity (longer leg = positive)
+- **LED not lighting**: Check pin 13 connection, verify LED negative connected directly to ground rail, check LED polarity (longer leg = positive)
 - **LED always on/off**: Check pin 13 connection, verify ground connection, ensure code uploaded successfully
 - **Irregular blinking**: Check power supply stability, verify all connections secure
 
 ### Phase 2 - Button + Buzzer Issues
 - **Button not responding**: Verify pin 8 connection to ground, check INPUT_PULLUP configuration
-- **LED not toggling**: Check pin 13 connection, verify LED polarity and resistor
+- **LED not toggling**: Check pin 13 connection, verify LED polarity and direct ground connection
 - **Buzzer not working**: Check pin 7 connection and polarity, verify buzzer is active type
 - **Multiple triggers**: Normal button behavior, ensure clean press and release
 
@@ -37,7 +37,7 @@
 - **Display showing wrong numbers**: Check shift register wiring, verify multiplexing timing
 - **Ultrasonic sensor not reading**: Check pins 2 (trigger) and 3 (echo), verify 5V power and ground
 - **Distance readings inconsistent**: Ensure sensor perpendicular to target, check for obstacles
-- **LED not lighting at ≤5cm**: Check pin 13 connection, verify distance threshold in code
+- **LED not lighting at ≤5cm**: Check pin 13 connection, verify LED negative connected directly to ground rail, verify distance threshold in code
 - **Buzzer not working**: Check pin 7 connection, verify mute button (pin 8) functionality
 
 ## Error Message Explanations

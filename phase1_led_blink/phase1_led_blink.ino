@@ -3,12 +3,12 @@
  * 
  * Components Used:
  * - Arduino Uno R3
- * - Green LED with 220Ω resistor
+ * - Green LED (direct connection)
  * - Breadboard with power rails
  * - Breadboard power supply module
  * 
  * Pin Assignments:
- * - Pin 13: Green LED (via 220Ω resistor to ground)
+ * - Pin 13: Green LED (direct connection to ground rail)
  * - Arduino 5V: Breadboard top rail (positive power)
  * - Arduino GND: Breadboard bottom rail (ground)
  * 
@@ -16,7 +16,7 @@
  * Arduino 5V  ----->  Breadboard Top Rail (Red/Positive)
  * Arduino GND ----->  Breadboard Bottom Rail (Blue/Negative)
  * Pin 13      ----->  LED Positive Lead (longer leg)
- * LED Negative ----->  220Ω Resistor ----->  Breadboard Ground Rail
+ * LED Negative ----->  Breadboard Ground Rail (direct connection)
  * 
  * Expected Behavior:
  * - LED blinks continuously: 500ms ON, 500ms OFF
@@ -124,9 +124,9 @@ void displayWorkshopHeader() {
   Serial.println("Hardware Configuration:");
   Serial.print("Pin ");
   Serial.print(LED_PIN);
-  Serial.println(": Green LED");
+  Serial.println(": Green LED (direct connection)");
   Serial.println("Breadboard: Power distribution");
-  Serial.println("Resistor: 220Ω (current limiting)");
+  Serial.println("Connection: LED negative to ground rail");
   Serial.println();
   Serial.println("Blink Pattern: 500ms ON, 500ms OFF");
   Serial.println("Timing: Non-blocking millis() based");
@@ -141,7 +141,7 @@ void displayWorkshopHeader() {
  * 
  * 1. LED not lighting:
  *    - Check LED polarity (longer leg = positive)
- *    - Verify 220Ω resistor connection
+ *    - Verify LED negative connected directly to ground rail
  *    - Ensure ground connection to breadboard rail
  *    - Check pin 13 connection
  * 
@@ -164,8 +164,8 @@ void displayWorkshopHeader() {
  *    - Verify Arduino is properly powered
  * 
  * 5. LED dim or flickering:
- *    - Check resistor value (should be 220Ω)
  *    - Verify power supply voltage (5V)
  *    - Check for loose connections
  *    - Ensure proper breadboard power rail connections
+ *    - Check LED quality and connections
  */

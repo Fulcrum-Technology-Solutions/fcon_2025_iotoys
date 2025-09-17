@@ -17,8 +17,8 @@
 - **Type**: Standard 5mm LED
 - **Forward Voltage**: 2.1V (typical)
 - **Forward Current**: 20mA (typical)
-- **Resistor Required**: 220Ω (calculated for 5V supply)
-- **Pin Assignment**: Pin 13 (all phases)
+- **Connection**: Direct connection (no resistor needed)
+- **Pin Assignment**: Pin 13 (positive), Ground rail (negative)
 
 ### Active Buzzer (Phase 2-3)
 - **Operating Voltage**: 5V DC
@@ -162,7 +162,7 @@ Pins 9-12: Common Cathodes (Digit 1-4)
 ## Component Testing Procedures
 
 ### LED Testing
-1. Connect LED with 220Ω resistor to 5V and GND
+1. Connect LED directly to 5V and GND (longer leg = positive)
 2. Verify forward polarity (longer leg = positive)
 3. Check brightness and color
 

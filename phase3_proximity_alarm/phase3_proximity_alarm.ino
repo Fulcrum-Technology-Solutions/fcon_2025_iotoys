@@ -7,7 +7,7 @@
  * - HC-SR04 Ultrasonic Distance Sensor
  * - Active Buzzer
  * - Push Button
- * - LED with 220Ω resistor
+ * - LED (direct connection)
  * - 220Ω resistors for 7-segment segments
  * - Breadboard for power distribution
  * 
@@ -18,7 +18,7 @@
  * - Pin 3: Ultrasonic Echo (HC-SR04)
  * - Pin 7: Active Buzzer
  * - Pin 8: Push Button (with internal pull-up resistor)
- * - Pin 13: LED with 220Ω resistor
+ * - Pin 13: LED (direct connection to ground rail)
  * - 5V: Breadboard top rail (positive power)
  * - GND: Breadboard bottom rail (ground)
  * 
@@ -33,7 +33,7 @@
  * Pin 3       ----->  HC-SR04 ECHO
  * Pin 7       ----->  Buzzer Positive (negative to GND)
  * Pin 8       ----->  Push Button (other terminal to GND)
- * Pin 13      ----->  LED Positive via 220Ω resistor (negative to GND)
+ * Pin 13      ----->  LED Positive Lead (negative to GND rail)
  * HC-SR04 VCC ----->  5V Rail
  * HC-SR04 GND ----->  Ground Rail
  * 7-Seg Common Cathodes ----->  Ground Rail
@@ -392,9 +392,9 @@ void displayWorkshopHeader() {
  *    - Ensure proper button press detection
  * 
  * 6. LED not lighting up:
- *    - Check pin 13 connection and 220Ω resistor
+ *    - Check pin 13 connection
  *    - Verify LED polarity (longer leg = positive)
- *    - Test LED directly with 5V and resistor
+ *    - Verify LED negative connected directly to ground rail
  *    - Check if distance is actually ≤5cm
  * 
  * 7. Alarm not activating at correct distance:
