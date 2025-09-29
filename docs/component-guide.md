@@ -71,7 +71,7 @@
 - **Type**: Carbon Film
 - **Power Rating**: 1/4W
 - **Tolerance**: ±5%
-- **Color Code**: Red-Red-Brown-Gold
+- **Color Code**: Red-Red-Brown-Gold OR Red-Red-Black-Black-Brown
 
 ## Pinout Diagrams and Connections
 
