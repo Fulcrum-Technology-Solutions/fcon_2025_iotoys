@@ -7,41 +7,58 @@
 ```
 fcon_2025_iotoys/
 ├── README.md
+├── CLAUDE.md
 ├── docs/
 │   ├── wiring-diagrams/
+│   │   ├── phase0-power-wiring.png
+│   │   ├── phase0-power-wiring.svg
 │   │   ├── phase1-led-wiring.png
-│   │   ├── phase2-7segment-button-wiring.png
-│   │   └── phase3-proximity-alarm-wiring.png
+│   │   ├── phase1-led-wiring.svg
+│   │   ├── phase2-random-generator-wiring.png
+│   │   ├── phase2-random-generator-wiring.svg
+│   │   ├── phase3-proximity-alarm-wiring.png
+│   │   └── phase3-proximity-alarm-wiring.svg
 │   ├── troubleshooting.md
 │   └── component-guide.md
+├── phase0-power-test/
+│   ├── README.md
+│   ├── phase0_power_test.ino
+│   ├── IoToys-Phase0-Diagram.png
+│   └── IoToys-Phase0-Diagram.svg
 ├── phase1-led-blink/
+│   ├── README.md
 │   ├── phase1_led_blink.ino
-│   ├── README.md
-│   └── wiring-diagram.txt
+│   ├── diagram_phase1_led_blink.png
+│   └── diagram_phase1_led_blink.svg
 ├── phase2-random-generator/
+│   ├── README.md
 │   ├── phase2_random_generator.ino
-│   ├── README.md
-│   └── wiring-diagram.txt
+│   ├── diagram_phase2_button_buzzer.png
+│   └── diagram_phase2_button_buzzer.svg
 ├── phase3-proximity-alarm/
-│   ├── phase3_proximity_alarm.ino
 │   ├── README.md
-│   └── wiring-diagram.txt
+│   ├── phase3_proximity_alarm.ino
+│   ├── diagram_phase3_proximity_alarm.png
+│   └── diagram_phase3_proximity_alarm.svg
 └── resources/
-    ├── component-datasheets/
-    │   ├── HC-SR04-datasheet.pdf
-    │   ├── 7segment-display-pinout.pdf
-    │   └── arduino-uno-pinout.pdf
     └── workshop-presentation/
-        ├── workshop-slides.pdf
-        └── component-overview.pdf
+        └── placeholder.txt
 ```
 
 ### File Descriptions:
 - **Main README.md**: Workshop overview, prerequisites, and getting started guide
-- **Phase folders**: Each contains standalone Arduino code (.ino file) with phase-specific documentation
-- **docs/**: Comprehensive documentation including wiring diagrams and troubleshooting guides
-- **resources/**: Reference materials including component datasheets and presentation slides
-- **wiring-diagram.txt**: ASCII art wiring diagrams in each phase folder for offline reference
+- **CLAUDE.md**: This requirements document
+- **Phase folders**: Each contains standalone Arduino code (.ino file), README with instructions, and wiring diagrams (PNG/SVG)
+  - **phase0-power-test/**: Power validation and initial setup verification
+  - **phase1-led-blink/**: LED blink system
+  - **phase2-random-generator/**: Random number generator with 7-segment display and button
+  - **phase3-proximity-alarm/**: Proximity alarm system with ultrasonic sensor and buzzer
+  - Each phase README includes: component list, pin assignments, wiring instructions, expected behavior, troubleshooting
+- **docs/**: Comprehensive documentation including:
+  - **wiring-diagrams/**: Consolidated wiring diagrams for all phases (PNG and SVG formats)
+  - **troubleshooting.md**: Common issues and solutions
+  - **component-guide.md**: Component reference and specifications
+- **resources/**: Reference materials for workshop presentation files
 
 ## Hardware Configuration
 - **Microcontroller**: Arduino Uno R3
