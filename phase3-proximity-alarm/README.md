@@ -12,67 +12,78 @@ Build a car-like proximity alarm that measures distance with an ultrasonic senso
 ## Pin Assignments
 ```
 From Phase 2 (keep connected):
-Pins 2-8: 7-segment display
-Pin 10: Push button
+Pin 7: Active Buzzer
+Pin 8: Push Button
+Pin 13: Red LED
 
 New for Phase 3:
-Pin 11: Ultrasonic Trigger (HC-SR04)
-Pin 12: Ultrasonic Echo (HC-SR04)
-Pin 13: Active Buzzer
+Pin 2: Ultrasonic Trigger (HC-SR04)
+Pin 3: Ultrasonic Echo (HC-SR04)
+Pins 4-6: 7-Segment Shift Register (data, latch, clock)
+Pins 9-12: 7-Segment Common Cathodes (digits 1-4)
 ```
 
 ## Wiring Instructions
-1. **Keep Phase 2 wiring intact** (display and button)
-2. **HC-SR04 Sensor**:
+1. **Keep Phase 2 wiring intact** (LED, button, and buzzer)
+2. **4-Digit 7-Segment Display**:
+   - Shift register data → Pin 4
+   - Shift register latch → Pin 5
+   - Shift register clock → Pin 6
+   - Common cathodes → Pins 9-12 (one per digit)
+   - Segment connections via 220Ω resistors
+3. **HC-SR04 Sensor**:
    - VCC → Breadboard 5V rail
    - GND → Breadboard ground rail
-   - TRIG → Pin 11
-   - ECHO → Pin 12
-3. **Active Buzzer**:
-   - Positive (+) → Pin 13
-   - Negative (-) → Breadboard ground rail
+   - TRIG → Pin 2
+   - ECHO → Pin 3
 
 ## What This Does
-- Continuously measures distance (0-9cm range)
-- Displays distance on 7-segment (blank if >9cm)
-- Activates buzzer alarm when ≤2cm
+- Continuously measures distance (0-9999cm range)
+- Displays distance on 4-digit 7-segment display
+- LED lights up when distance ≤5cm
+- Activates buzzer alarm when distance ≤10cm (car-like backup sensor)
 - Beeping speed increases as distance decreases:
-  - 2cm: beep every 800ms
-  - 1cm: beep every 400ms
-  - 0cm: beep every 200ms
-- Button toggles mute/unmute (display keeps working)
-- Serial output shows distance, alarm status, mute state
+  - 10cm: beep every 800ms
+  - 5cm: beep every ~400ms
+  - 2cm: beep every 100ms
+  - <2cm: solid beep (continuous)
+- Button toggles mute/unmute (display and LED keep working)
+- Serial output shows distance, alarm status, mute state, and beep interval
 
 ## Expected Behavior
-1. Display shows distance 0-9cm
-2. Display blank when >9cm
-3. Buzzer starts beeping at ≤2cm
-4. Beeping gets faster closer to 0cm
-5. Press button to mute/unmute buzzer
-6. Distance display always active
+1. Display shows distance 0-9999cm on 4 digits
+2. LED lights up when distance ≤5cm
+3. Buzzer starts beeping at ≤10cm
+4. Beeping gets progressively faster as distance decreases
+5. Solid beep when distance <2cm (danger zone)
+6. Press button to mute/unmute buzzer
+7. Distance display and LED always active
 
 ## Wiring Diagram
 See `diagram_phase3_proximity_alarm.png` or `docs/wiring-diagrams/phase3-proximity-alarm-wiring.png`
 
 ## Upload Instructions
-1. Add HC-SR04 and buzzer to existing Phase 2 circuit
+1. Add 4-digit display and HC-SR04 to existing Phase 2 circuit
 2. Open `phase3_proximity_alarm.ino` in Arduino IDE
 3. Upload to Arduino
 4. Open Serial Monitor (9600 baud)
-5. Move hand near sensor to test
+5. Move hand near sensor to test distance readings
 
 ## Troubleshooting
-- No distance readings? Check HC-SR04 VCC/GND and TRIG/ECHO pins
+- No distance readings? Check HC-SR04 VCC/GND and Pin 2/3 connections
 - Erratic readings? Sensor needs clear line of sight, avoid soft surfaces
-- Buzzer not working? Verify polarity (+ to Pin 13, - to GND)
-- Continuous beeping? Check mute state via Serial Monitor
-- Display issues? Verify Phase 2 connections still intact
-- Button not muting? Check Pin 10 connection
+- Buzzer not working? Verify Pin 7 connection and check mute state
+- Display not showing numbers? Check shift register pins 4-6 and common cathodes 9-12
+- LED not lighting? Check Pin 13 and verify distance is ≤5cm
+- Button not muting? Check Pin 8 connection
+- Display flickering? Normal for multiplexed displays, ensure proper ground connections
 
 ## Key Concepts
-- Ultrasonic distance measurement
+- Ultrasonic distance measurement with HC-SR04
 - Pulse timing with `pulseIn()`
-- Dynamic timing intervals
+- Shift register control for 7-segment displays
+- Display multiplexing for multi-digit displays
+- Dynamic timing intervals (variable beep rates)
 - State management (muted/unmuted)
 - Multi-sensor integration
 - Real-time sensor feedback
@@ -80,16 +91,19 @@ See `diagram_phase3_proximity_alarm.png` or `docs/wiring-diagrams/phase3-proximi
 ## Workshop Complete!
 You've built a complete sensor system with:
 - ✅ Digital output (LED)
-- ✅ Display control (7-segment)
-- ✅ User input (button)
-- ✅ Distance sensing (ultrasonic)
-- ✅ Audio feedback (buzzer)
+- ✅ Multi-digit display control (4-digit 7-segment with shift registers)
+- ✅ User input (button with debouncing)
+- ✅ Distance sensing (ultrasonic HC-SR04)
+- ✅ Audio feedback (buzzer with dynamic intervals)
 - ✅ State management (mute toggle)
+- ✅ Display multiplexing for smooth output
+- ✅ Real-time distance monitoring
 
 ## Further Exploration
-- Extend range beyond 9cm with multi-digit display
-- Add colored LEDs for different distance zones
-- Implement different alarm patterns
-- Add sound effects with tone() function
+- Add colored LEDs for different distance zones (green/yellow/red)
+- Implement different alarm patterns or melodies
+- Add temperature/humidity sensors
 - Create parking assist game modes
+- Display distance in inches or feet
+- Add maximum/minimum distance tracking
 

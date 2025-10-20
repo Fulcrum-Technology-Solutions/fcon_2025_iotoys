@@ -3,12 +3,12 @@
  * 
  * Components Used:
  * - Arduino Uno R3
- * - Green LED (direct connection)
+ * - Red LED (direct connection)
  * - Breadboard with power rails
  * - Breadboard power supply module
  * 
  * Pin Assignments:
- * - Pin 13: Green LED (direct connection to ground rail)
+ * - Pin 13: Red LED (direct connection to ground rail)
  * - Arduino 5V: Breadboard top rail (positive power)
  * - Arduino GND: Breadboard bottom rail (ground)
  * 
@@ -124,7 +124,7 @@ void displayWorkshopHeader() {
   Serial.println("Hardware Configuration:");
   Serial.print("Pin ");
   Serial.print(LED_PIN);
-  Serial.println(": Green LED (direct connection)");
+  Serial.println(": Red LED (direct connection)");
   Serial.println("Breadboard: Power distribution");
   Serial.println("Connection: LED negative to ground rail");
   Serial.println();

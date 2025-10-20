@@ -14,8 +14,8 @@ fcon_2025_iotoys/
 │   │   ├── phase0-power-wiring.svg
 │   │   ├── phase1-led-wiring.png
 │   │   ├── phase1-led-wiring.svg
-│   │   ├── phase2-random-generator-wiring.png
-│   │   ├── phase2-random-generator-wiring.svg
+│   │   ├── phase2-button-buzzer-wiring.png
+│   │   ├── phase2-button-buzzer-wiring.svg
 │   │   ├── phase3-proximity-alarm-wiring.png
 │   │   └── phase3-proximity-alarm-wiring.svg
 │   ├── troubleshooting.md
@@ -30,9 +30,9 @@ fcon_2025_iotoys/
 │   ├── phase1_led_blink.ino
 │   ├── diagram_phase1_led_blink.png
 │   └── diagram_phase1_led_blink.svg
-├── phase2-random-generator/
+├── phase2-button-buzzer/
 │   ├── README.md
-│   ├── phase2_random_generator.ino
+│   ├── phase2_button_buzzer.ino
 │   ├── diagram_phase2_button_buzzer.png
 │   └── diagram_phase2_button_buzzer.svg
 ├── phase3-proximity-alarm/
@@ -51,7 +51,7 @@ fcon_2025_iotoys/
 - **Phase folders**: Each contains standalone Arduino code (.ino file), README with instructions, and wiring diagrams (PNG/SVG)
   - **phase0-power-test/**: Power validation and initial setup verification
   - **phase1-led-blink/**: LED blink system
-  - **phase2-random-generator/**: Random number generator with 7-segment display and button
+  - **phase2-button-buzzer/**: Button and buzzer control with LED toggle
   - **phase3-proximity-alarm/**: Proximity alarm system with ultrasonic sensor and buzzer
   - Each phase README includes: component list, pin assignments, wiring instructions, expected behavior, troubleshooting
 - **docs/**: Comprehensive documentation including:
@@ -71,8 +71,8 @@ fcon_2025_iotoys/
 - **Sensors**:
   - HC-SR04 ultrasonic distance sensor
 - **Output Devices**:
-  - Green LED (Phase 1 only) - 220Ω resistor
-  - 1-digit 7-segment display (common cathode)
+  - Red LED (Phase 1-3) - direct connection
+  - 4-digit 7-segment display (common cathode) - Phase 3 only
   - Active buzzer
 - **Connectivity**: Direct Arduino connections, breadboard for power distribution
 
@@ -82,25 +82,22 @@ fcon_2025_iotoys/
 Arduino 5V  ----->  Breadboard Top Rail (Positive/Red Side)
 Arduino GND ----->  Breadboard Bottom Rail (Negative/Blue Side)
 
-// Phase 1: LED Control
-Pin 9: Green LED (via 220Ω resistor to ground rail)
+// Phase 1-3: LED Control
+Pin 13: Red LED (direct connection to ground rail)
 
-// Phase 2-3: 7-Segment Display (Common Cathode)
-Pin 2: 7-Segment A (top)
-Pin 3: 7-Segment B (top right)
-Pin 4: 7-Segment C (bottom right)
-Pin 5: 7-Segment D (bottom)
-Pin 6: 7-Segment E (bottom left)
-Pin 7: 7-Segment F (top left)
-Pin 8: 7-Segment G (middle)
+// Phase 3: 7-Segment Display (Common Cathode with Shift Register)
+Pin 4: 7-Segment Shift Register Data
+Pin 5: 7-Segment Shift Register Latch
+Pin 6: 7-Segment Shift Register Clock
+Pin 9-12: 7-Segment Common Cathodes (digits 1-4)
 
-// Phase 2-3: Input/Output
-Pin 10: Push Button (with internal pull-up resistor)
+// Phase 2-3: Button and Buzzer
+Pin 7: Active Buzzer
+Pin 8: Push Button (with internal pull-up resistor)
 
-// Phase 3: Ultrasonic Sensor and Buzzer
-Pin 11: Ultrasonic Trigger (HC-SR04)
-Pin 12: Ultrasonic Echo (HC-SR04)
-Pin 13: Active Buzzer
+// Phase 3: Ultrasonic Sensor
+Pin 2: Ultrasonic Trigger (HC-SR04)
+Pin 3: Ultrasonic Echo (HC-SR04)
 
 // Available Pins
 A0-A5: Available for future expansion
@@ -118,8 +115,8 @@ A0-A5: Available for future expansion
 
 ### Requirements:
 - Initialize Arduino Uno R3 with Serial communication at 9600 baud
-- Initialize green LED on Pin 9
-- Connect LED via 220Ω resistor to breadboard ground rail
+- Initialize red LED on Pin 13
+- Connect LED with direct connection to breadboard ground rail
 - Create simple blink pattern: LED on for 500ms, off for 500ms, continuous
 - Include serial output describing LED state changes
 - Use non-blocking millis() timing
@@ -137,77 +134,79 @@ void blinkLED()
 void updateSerial()
 ```
 
-## Phase 2: Random Number Generator
-**File**: `phase2_random_generator.ino`
+## Phase 2: Button and Buzzer Control
+**File**: `phase2_button_buzzer.ino`
 
 ### Requirements:
-- Remove all LED functionality from Phase 1
-- Connect 1-digit 7-segment display to pins 2-8 (segments A-G)
-- Connect push button to pin 10 (use internal pull-up resistor)
+- Build on Phase 1 foundation (LED on Pin 13)
+- Connect active buzzer to pin 7
+- Connect push button to pin 8 (use internal pull-up resistor)
 - Power all components from breadboard rails (5V and ground)
-- Implement random number generator functionality:
-  - Boot sequence: Display 0→1→2→3→4→5→6→7→8→9 (500ms each)
-  - After boot sequence, show blank display
-  - Button press generates and displays random number (0-9)
-  - Number stays displayed until next button press
-- Enhanced serial output showing button presses and generated numbers
+- Implement button toggle functionality:
+  - LED starts in OFF state
+  - Button press toggles LED on/off
+  - Each button press triggers buzzer beep (200ms duration)
+  - LED state persists until next button press
+- Enhanced serial output showing button presses and LED state changes
 
-### Boot Sequence:
-- **Startup**: Display digits 0-9 sequentially, 500ms each
-- **Ready State**: Blank display after boot sequence
-- **Button Press**: Immediately show new random number (0-9)
-- **Serial Output**: Display generated numbers and button press events
+### Functionality:
+- **Initial State**: LED off, buzzer silent
+- **Button Press**: Toggle LED state + single buzzer beep
+- **LED State**: Remains in current state until next button press
+- **Serial Output**: Display button events and LED state
 
 ### Functions Required:
 ```cpp
 void setup()
 void loop()
-void bootSequence()
 void readButton()
-void generateRandomNumber()
-void displayNumber(int number)
-void clearDisplay()
+void toggleLED()
+void triggerBuzzer()
+void handleBuzzer()
 ```
 
 ## Phase 3: Proximity Alarm System
 **File**: `phase3_proximity_alarm.ino`
 
 ### Requirements:
-- Build on Phase 2 foundation (7-segment display and button established)
-- Connect HC-SR04 ultrasonic sensor to pins 11 (trigger) and 12 (echo)
-- Connect active buzzer to pin 13
+- Build on Phase 2 foundation (LED, button, and buzzer established)
+- Add 4-digit 7-segment display with shift register (pins 4-6 for control, pins 9-12 for common cathodes)
+- Connect HC-SR04 ultrasonic sensor to pins 2 (trigger) and 3 (echo)
 - Power all components from breadboard rails (5V and ground)
 - Implement proximity alarm functionality:
-  - Continuously measure distance every 200ms
-  - Display distance 0-9cm on 7-segment display
-  - Show blank display if distance >9cm
-  - Buzzer alarm when distance ≤2cm with car-like beeping pattern
-  - Faster beeping as distance approaches 0cm
-  - Button toggles buzzer mute/unmute (distance still displays)
+  - Continuously measure distance every 100ms
+  - Display distance 0-9999cm on 4-digit 7-segment display
+  - LED lights up when distance ≤5cm
+  - Buzzer alarm when distance ≤10cm with car-like beeping pattern
+  - Faster beeping as distance approaches 2cm, solid beep at ≤2cm
+  - Button toggles buzzer mute/unmute (distance display and LED unaffected)
 - Enhanced serial output showing distance readings, alarm status, and mute state
 
 ### Proximity Alarm Features:
-- **Distance Range**: 0-9cm displayed on 7-segment, blank if >9cm
-- **Update Rate**: Distance measured every 200ms
-- **Alarm Threshold**: Buzzer activates when ≤2cm
+- **Distance Range**: 0-9999cm displayed on 4-digit 7-segment display
+- **Update Rate**: Distance measured every 100ms
+- **LED Threshold**: Lights up when distance ≤5cm
+- **Alarm Threshold**: Buzzer activates when ≤10cm
 - **Beep Pattern**: Car reversing alarm style - faster beeping as distance decreases
 - **Beep Timing**: 
-  - 2cm: beep every 800ms
-  - 1cm: beep every 400ms  
-  - 0cm: beep every 200ms
-- **Mute Function**: Button toggles buzzer on/off, distance display unaffected
-- **Serial Output**: Distance readings, alarm status, mute state
+  - 10cm: beep every 800ms
+  - 5cm: beep every ~400ms
+  - 2cm: beep every 100ms
+  - <2cm: solid beep (continuous)
+- **Mute Function**: Button toggles buzzer on/off, distance display and LED unaffected
+- **Serial Output**: Distance readings, alarm status, mute state, beep interval
 
 ### Functions Required:
 ```cpp
 void setup()
 void loop()
 void measureDistance()
-void updateDisplay()
-void handleBuzzerAlarm()
-void readButton()
+void break_number()
+void display_number()
+void cathode_high()
+void handleCarBackupBuzzer()
+void readMuteButton()
 void toggleMute()
-void calculateBeepInterval(int distance)
 ```
 
 ## Code Structure Requirements
@@ -240,13 +239,14 @@ void calculateBeepInterval(int distance)
 // Button reading with digitalRead() and INPUT_PULLUP
 ```
 
-### 7-Segment Display Number Patterns:
+### 7-Segment Display Control (Phase 3):
 ```cpp
-// Define digit patterns for 7-segment display (segments A-G)
+// 4-digit 7-segment display with shift register
 // Common cathode configuration
-// Segment mapping: A=Pin2, B=Pin3, C=Pin4, D=Pin5, E=Pin6, F=Pin7, G=Pin8
-// Pattern arrays for digits 0-9
-// Clear display function for blank state
+// Shift register control: Data=Pin4, Latch=Pin5, Clock=Pin6
+// Common cathodes: Pins 9-12 (digits 1-4)
+// Pattern arrays for digits 0-9 using byte notation
+// Multiplexing for smooth display updates
 ```
 
 ### Testing Requirements:
@@ -267,9 +267,9 @@ Each code file should include:
 - **Next phase preview** explaining what components will be added
 
 ## Hardware Connection Notes:
-- **7-Segment Display**: Connect common cathode to ground, segments A-G to pins 2-8 via 220Ω resistors
-- **Push Button**: Connect between pin 10 and ground, use INPUT_PULLUP mode
-- **Ultrasonic Sensor**: VCC to 5V, GND to ground, Trig to pin 11, Echo to pin 12
-- **Active Buzzer**: Positive to pin 13, negative to ground
-- **LED (Phase 1 only)**: Connect via 220Ω resistor to ground, positive lead to pin 9
-- **Power Distribution**: Use breadboard power rails for clean power distribution (5V top rail, 3.3V bottom rail, both with GND)
+- **4-Digit 7-Segment Display** (Phase 3): Shift register data/latch/clock to pins 4-6, common cathodes to pins 9-12, segments via 220Ω resistors
+- **Push Button**: Connect between pin 8 and ground, use INPUT_PULLUP mode
+- **Ultrasonic Sensor** (Phase 3): VCC to 5V, GND to ground, Trig to pin 2, Echo to pin 3
+- **Active Buzzer**: Positive to pin 7, negative to ground
+- **LED** (Phase 1-3): Direct connection, positive lead to pin 13, negative to ground rail
+- **Power Distribution**: Use breadboard power rails for clean power distribution (5V top rail, ground bottom rail)

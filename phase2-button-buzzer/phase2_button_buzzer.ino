@@ -3,14 +3,14 @@
  * 
  * Components Used:
  * - Arduino Uno R3
- * - Green LED (direct connection)
+ * - Red LED (direct connection from Phase 1)
  * - Active Buzzer
  * - Push Button
  * - Breadboard with power rails
  * - Breadboard power supply module
  * 
  * Pin Assignments:
- * - Pin 13: Green LED (direct connection to ground rail)
+ * - Pin 13: Red LED (direct connection to ground rail)
  * - Pin 7: Active Buzzer (positive lead, negative to ground)
  * - Pin 8: Push Button (with internal pull-up resistor)
  * - Arduino 5V: Breadboard top rail (positive power)
@@ -146,7 +146,7 @@ void displayWorkshopHeader() {
   Serial.println("Hardware Configuration:");
   Serial.print("Pin ");
   Serial.print(LED_PIN);
-  Serial.println(": Green LED");
+  Serial.println(": Red LED");
   Serial.print("Pin ");
   Serial.print(BUZZER_PIN);
   Serial.println(": Active Buzzer");

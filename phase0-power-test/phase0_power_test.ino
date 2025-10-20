@@ -17,7 +17,7 @@
  * Power Module 5V  ----->  Breadboard Top Rail (Red/Positive)
  * Power Module GND ----->  Breadboard Bottom Rail (Blue/Negative)
  * Arduino 5V       ----->  Breadboard Top Rail (Red/Positive)
- * Arduino GND      ----->  Breadboard Top Rail (Ground)
+ * Arduino GND      ----->  Breadboard Bottom Rail (Blue/Negative/Ground)
  * 
  * Expected Behavior:
  * - Arduino boots up and initializes
@@ -88,7 +88,7 @@ void displayWorkshopHeader() {
   Serial.println();
   Serial.println("Connections:");
   Serial.println("Arduino 5V  ----->  Breadboard Top Rail (+)");
-  Serial.println("Arduino GND ----->  Breadboard Top Rail (-)");
+  Serial.println("Arduino GND ----->  Breadboard Bottom Rail (-)");
   Serial.println("Power Module ----->  Breadboard Power Rails");
   Serial.println();
   Serial.println("Next Phase: LED Blink (Phase 1)");

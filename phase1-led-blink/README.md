@@ -5,20 +5,18 @@ Learn basic digital output control by blinking an LED with non-blocking timing.
 
 ## Components Required
 - Arduino Uno R3 (with power from Phase 0)
-- Green LED
-- 220Ω resistor
+- Red LED
 - Jumper wires
 
 ## Pin Assignments
 ```
-Pin 9: Green LED (via 220Ω resistor to GND)
+Pin 13: Red LED (direct connection to GND)
 ```
 
 ## Wiring Instructions
 1. Insert LED into breadboard
-2. Connect LED long leg (anode) to Pin 9 via jumper
-3. Connect LED short leg (cathode) to 220Ω resistor
-4. Connect resistor to breadboard ground rail
+2. Connect LED long leg (anode) to Pin 13 via jumper
+3. Connect LED short leg (cathode) directly to breadboard ground rail
 
 ## What This Does
 - Blinks LED every 500ms (on/off cycle)
@@ -43,16 +41,16 @@ See `diagram_phase1_led_blink.png` or `docs/wiring-diagrams/phase1-led-wiring.pn
 
 ## Troubleshooting
 - LED not lighting? Check polarity (long leg = positive)
-- Too dim/bright? Verify 220Ω resistor value
-- Not blinking? Check Pin 9 connection
+- Not blinking? Check Pin 13 connection
 - No serial output? Verify baud rate is 9600
+- LED always on/off? Check ground connection
 
 ## Key Concepts
 - Digital output with `digitalWrite()`
 - Non-blocking timing with `millis()`
 - Serial debugging
-- LED current limiting with resistors
+- Basic LED control
 
 ## Next Phase
-**Phase 2**: Random Generator - Replace LED with 7-segment display and add button input
+**Phase 2**: Button + Buzzer - Add button input and buzzer output with LED toggle
 

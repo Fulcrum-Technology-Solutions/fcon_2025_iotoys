@@ -13,27 +13,28 @@
 - **EEPROM**: 1KB
 - **Clock Speed**: 16MHz
 
-### Green LED (Phase 1-3)
+### Red LED (Phase 1-3)
 - **Type**: Standard 5mm LED
-- **Forward Voltage**: 2.1V (typical)
+- **Forward Voltage**: 2.0V (typical)
 - **Forward Current**: 20mA (typical)
-- **Connection**: Direct connection (no resistor needed)
+- **Connection**: Direct connection (no current-limiting resistor for simplicity)
 - **Pin Assignment**: Pin 13 (positive), Ground rail (negative)
+- **Note**: Best practice includes current-limiting resistor; omitted for workshop simplicity
 
 ### Active Buzzer (Phase 2-3)
 - **Operating Voltage**: 5V DC
 - **Operating Current**: 30mA (typical)
 - **Sound Output**: 85dB @ 10cm
 - **Frequency**: 2.5kHz ± 500Hz
-- **Type**: Piezoelectric
-- **Pin Assignment**: Pin 7 (Phase 2-3)
+- **Type**: Piezoelectric (active type - has built-in oscillator)
+- **Pin Assignment**: Pin 7 (positive), Ground rail (negative)
 
 ### Push Button (Phase 2-3)
 - **Type**: Momentary SPST (Single Pole Single Throw)
 - **Operating Voltage**: 5V
 - **Contact Rating**: 50mA @ 12V DC
 - **Configuration**: INPUT_PULLUP (internal resistor)
-- **Pin Assignment**: Pin 8 (Phase 2-3)
+- **Pin Assignment**: Pin 8 (one side), Ground rail (other side)
 
 ### HC-SR04 Ultrasonic Sensor (Phase 3)
 - **Operating Voltage**: 5V DC
@@ -42,7 +43,7 @@
 - **Measuring Angle**: 15 degrees
 - **Resolution**: 0.3cm
 - **Trigger Pulse**: 10μs minimum
-- **Echo Pulse**: Up to 38ms
+- **Echo Pulse**: Up to 38ms (timeout in code: 30ms)
 - **Pin Assignment**: Pin 2 (Trigger), Pin 3 (Echo)
 
 ### 4-Digit 7-Segment Display (Phase 3)
@@ -128,10 +129,10 @@ Pins 9-12: Common Cathodes (Digit 1-4)
 ## Power Requirements
 
 ### Total Current Consumption by Phase
-- **Phase 0**: ~15mA (Arduino Uno only - power test)
-- **Phase 1**: ~20mA (LED only)
-- **Phase 2**: ~50mA (LED + buzzer + button)
-- **Phase 3**: ~200mA (4-digit display + sensor + buzzer + LED + button)
+- **Phase 0**: ~50mA (Arduino Uno only - power test)
+- **Phase 1**: ~70mA (Arduino + LED)
+- **Phase 2**: ~100mA (Arduino + LED + buzzer when active)
+- **Phase 3**: ~250mA (Arduino + 4-digit display + sensor + buzzer + LED)
 
 ### Power Distribution
 - **Arduino 5V**: Powers all components
@@ -162,9 +163,10 @@ Pins 9-12: Common Cathodes (Digit 1-4)
 ## Component Testing Procedures
 
 ### LED Testing
-1. Connect LED directly to 5V and GND (longer leg = positive)
+1. Connect LED to Pin 13 and GND (longer leg = positive)
 2. Verify forward polarity (longer leg = positive)
-3. Check brightness and color
+3. Upload simple blink code to test
+4. Check brightness and color
 
 ### 4-Digit 7-Segment Display Testing (Phase 3)
 1. Connect shift register data, latch, and clock pins
