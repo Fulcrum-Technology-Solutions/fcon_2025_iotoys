@@ -1,6 +1,0 @@
-Workshop presentation files will be added here.
-
-Planned contents:
-- workshop-slides.pdf
-- component-overview.pdf
-
