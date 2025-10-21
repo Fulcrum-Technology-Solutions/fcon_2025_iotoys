@@ -28,7 +28,7 @@ Arduino GND → Breadboard bottom rail (blue/-)
 - Validates all connections
 
 ## Wiring Diagram
-See `IoToys-Phase0-Diagram.png` or `docs/wiring-diagrams/phase0-power-wiring.png`
+See `diagram_phase0_power_testpng` or `docs/wiring-diagrams/phase0-power-wiring.png`
 
 ## Upload Instructions
 1. Connect Arduino via USB

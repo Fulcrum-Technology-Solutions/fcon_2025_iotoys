@@ -126,19 +126,19 @@ All code uses built-in Arduino functions only - no library installation needed.
 fcon_2025_iotoys/
 ├── README.md                    # This file
 ├── CLAUDE.md                    # Detailed requirements document
-├── phase0-power-test/           # Phase 0: Power validation
+├── phase0_power_test/           # Phase 0: Power validation
 │   ├── README.md
 │   ├── phase0_power_test.ino
-│   └── IoToys-Phase0-Diagram.png
-├── phase1-led-blink/            # Phase 1: LED control
+│   └── diagram_phase0_power_test.png
+├── phase1_led_blink/            # Phase 1: LED control
 │   ├── README.md
 │   ├── phase1_led_blink.ino
 │   └── diagram_phase1_led_blink.png
-├── phase2-button-buzzer/        # Phase 2: Button + buzzer
+├── phase2_button_buzzer/        # Phase 2: Button + buzzer
 │   ├── README.md
 │   ├── phase2_button_buzzer.ino
 │   └── diagram_phase2_button_buzzer.png
-├── phase3-proximity-alarm/      # Phase 3: Complete system
+├── phase3_proximity_alarm/      # Phase 3: Complete system
 │   ├── README.md
 │   ├── phase3_proximity_alarm.ino
 │   └── diagram_phase3_proximity_alarm.png

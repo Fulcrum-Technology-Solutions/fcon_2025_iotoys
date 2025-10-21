@@ -20,22 +20,22 @@ fcon_2025_iotoys/
 │   │   └── phase3-proximity-alarm-wiring.svg
 │   ├── troubleshooting.md
 │   └── component-guide.md
-├── phase0-power-test/
+├── phase0_power_test/
 │   ├── README.md
 │   ├── phase0_power_test.ino
-│   ├── IoToys-Phase0-Diagram.png
-│   └── IoToys-Phase0-Diagram.svg
-├── phase1-led-blink/
+│   ├── diagram_phase0_power_test.png
+│   └── diagram_phase0_power_test.svg
+├── phase1_led_blink/
 │   ├── README.md
 │   ├── phase1_led_blink.ino
 │   ├── diagram_phase1_led_blink.png
 │   └── diagram_phase1_led_blink.svg
-├── phase2-button-buzzer/
+├── phase2-_utton_buzzer/
 │   ├── README.md
 │   ├── phase2_button_buzzer.ino
 │   ├── diagram_phase2_button_buzzer.png
 │   └── diagram_phase2_button_buzzer.svg
-├── phase3-proximity-alarm/
+├── phase3_proximity_alarm/
 │   ├── README.md
 │   ├── phase3_proximity_alarm.ino
 │   ├── diagram_phase3_proximity_alarm.png
